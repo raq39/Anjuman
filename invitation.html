@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>L Ward Taluka Level Science Exhibition – Invitation</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy-900: #050f20;
+    --navy-800: #081a34;
+    --navy-700: #0d2547;
+    --gold: #c9a24b;
+    --gold-light: #ecd89a;
+    --gold-soft: rgba(201, 162, 75, 0.35);
+    --ivory: #f6f1e4;
+    --text: #cfd9e8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body { min-height: 100%; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    color: var(--text);
+    background: var(--navy-900);
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(30, 70, 130, 0.45), transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 162, 75, 0.08), transparent 60%);
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+  }
+  body.locked { overflow: hidden; height: 100vh; }
+
+  /* ---------- GATEFOLD ---------- */
+  #gatefold {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; cursor: pointer;
+    touch-action: manipulation;
+  }
+  .gate-door {
+    width: 50%; height: 100%;
+    background:
+      linear-gradient(160deg, var(--navy-700) 0%, var(--navy-900) 100%);
+    display: flex; flex-direction: column; justify-content: space-between;
+    align-items: center; text-align: center; padding: 13vh 20px;
+    transition: transform 1s cubic-bezier(.76, 0, .24, 1);
+    position: relative;
+  }
+  .gate-door::before {
+    content: ""; position: absolute; inset: 14px;
+    border: 1px solid var(--gold-soft);
+  }
+  .gate-left  { border-right: 1px solid var(--gold); }
+  .gate-right { border-left: 1px solid var(--gold); }
+  #gatefold.opening .gate-left  { transform: translateX(-101%); }
+  #gatefold.opening .gate-right { transform: translateX(101%); }
+
+  /* Same font, size and weight on both doors so the sequence reads evenly */
+  .door-top, .door-bottom {
+    position: relative; z-index: 1; width: 100%;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600; line-height: 1.4;
+    font-size: 1.02rem; color: var(--gold-light);
+  }
+  .door-top .tag, .door-bottom .tag {
+    display: block; font-family: 'Jost', sans-serif; font-weight: 500;
+    font-size: .58rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .door-top .rule, .door-bottom .rule {
+    display: block; width: 28px; height: 1px; background: var(--gold);
+    margin: 10px auto 0;
+  }
+  @media (max-height: 520px) {
+    .gate-door { padding: 8vh 14px; }
+    .seal-circle { width: 84px; height: 84px; }
+    .seal-circle svg { width: 22px; height: 22px; margin-bottom: 3px; }
+    .door-top, .door-bottom { font-size: .85rem; }
+  }
+
+  .seal {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2; text-align: center;
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  #gatefold.opening .seal { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+
+  .seal-circle {
+    width: 112px; height: 112px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #1b3a6b, var(--navy-800) 70%);
+    border: 1.5px solid var(--gold);
+    box-shadow: 0 0 0 6px rgba(201,162,75,.12), 0 0 40px rgba(201,162,75,.35);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--gold-light);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  .seal-circle svg { width: 30px; height: 30px; margin-bottom: 6px; }
+  .seal-circle span {
+    font-family: 'Jost', sans-serif; font-weight: 500;
+    font-size: .62rem; letter-spacing: 2.5px; text-transform: uppercase;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 6px rgba(201,162,75,.12), 0 0 30px rgba(201,162,75,.25); }
+    50%      { box-shadow: 0 0 0 12px rgba(201,162,75,.05), 0 0 55px rgba(201,162,75,.5); }
+  }
+
+  /* ---------- MUSIC TOGGLE ---------- */
+  #musicBtn {
+    position: fixed; top: 14px; right: 14px; z-index: 10000;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(8, 26, 52, .85); backdrop-filter: blur(6px);
+    border: 1px solid var(--gold); color: var(--gold-light);
+    display: none; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  #musicBtn.show { display: flex; }
+  #musicBtn svg { width: 18px; height: 18px; }
+  #musicBtn .off { display: none; }
+  #musicBtn.muted .on  { display: none; }
+  #musicBtn.muted .off { display: block; }
+
+  /* ---------- CARD ---------- */
+  .container { width: 100%; max-width: 460px; padding: 22px 16px 60px; }
+
+  .card {
+    position: relative;
+    background: linear-gradient(180deg, var(--navy-800), var(--navy-900));
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 30px 70px rgba(0,0,0,.65);
+    opacity: 0; transform: translateY(30px);
+  }
+  .card.reveal { animation: rise 1.1s .1s cubic-bezier(.2,.8,.2,1) forwards; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  .frame {
+    border: 1px solid var(--gold-soft);
+    padding: 34px 20px 30px;
+    text-align: center;
+    position: relative;
+  }
+  .corner { position: absolute; width: 18px; height: 18px; border: 1.5px solid var(--gold); }
+  .c-tl { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+  .c-tr { top: -1px; right: -1px; border-left: 0; border-bottom: 0; }
+  .c-bl { bottom: -1px; left: -1px; border-right: 0; border-top: 0; }
+  .c-br { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+  .eyebrow {
+    font-size: .66rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 14px;
+  }
+  .host {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.12rem; font-weight: 600; font-style: italic;
+    color: var(--gold-light); line-height: 1.4;
+  }
+  .host .amp { color: var(--gold); padding: 0 2px; }
+
+  .ornament {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin: 22px 0;
+    color: var(--gold);
+  }
+  .ornament::before, .ornament::after {
+    content: ""; height: 1px; width: 64px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+  .ornament::after { transform: scaleX(-1); }
+  .ornament svg { width: 26px; height: 26px; }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; color: var(--ivory);
+    font-size: 1.95rem; line-height: 1.18; letter-spacing: .5px;
+  }
+  h1 small {
+    display: block; font-family: 'Jost', sans-serif; font-weight: 400;
+    font-size: .7rem; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin: 6px 0 4px;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.05rem; color: var(--text); margin-top: 14px; line-height: 1.5;
+  }
+  .subtitle strong { color: var(--gold-light); font-weight: 600; }
+
+  .photo {
+    margin: 26px 0 22px; height: 190px; border: 1px solid var(--gold);
+    padding: 5px; background: var(--navy-900);
+  }
+  .photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: saturate(.9) contrast(1.03);
+  }
+
+  .para { font-size: .86rem; line-height: 1.75; font-weight: 300; color: var(--text); }
+  .para strong { color: var(--gold-light); font-weight: 500; }
+
+  /* Scratch */
+  .scratch-wrap { margin: 30px 0 8px; }
+  .label {
+    font-size: .64rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px; font-weight: 500;
+  }
+  .scratch-box {
+    position: relative; width: 280px; height: 104px; margin: 0 auto;
+    border: 1px solid var(--gold); overflow: hidden;
+    background: var(--navy-900);
+  }
+  .secret {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; user-select: none;
+  }
+  .secret .d {
+    font-family: 'Playfair Display', serif; font-weight: 700;
+    font-size: 1.7rem; color: var(--gold-light); letter-spacing: 2px;
+  }
+  .secret .m {
+    font-size: .68rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--text); margin-top: 4px;
+  }
+  #scratch {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    touch-action: none; cursor: grab; transition: opacity .8s ease;
+  }
+  #scratch.done { opacity: 0; pointer-events: none; }
+  .hint { font-size: .68rem; color: #8ea2c0; margin-top: 10px; font-weight: 300; }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 26px 0 24px; }
+  .feat {
+    border: 1px solid var(--gold-soft); padding: 14px 4px 12px;
+    background: rgba(255,255,255,.025);
+  }
+  .feat svg { width: 26px; height: 26px; color: var(--gold); margin-bottom: 8px; }
+  .feat span {
+    display: block; font-size: .64rem; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--gold-light); font-weight: 500; line-height: 1.4;
+  }
+
+  .quote {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.12rem; color: var(--gold-light); line-height: 1.5; margin-bottom: 22px;
+  }
+
+  .venue {
+    border-top: 1px solid var(--gold-soft); padding-top: 22px;
+  }
+  .venue h4 {
+    font-family: 'Playfair Display', serif; font-size: 1.02rem;
+    color: var(--ivory); font-weight: 600; margin-bottom: 8px;
+  }
+  .venue p { font-size: .8rem; line-height: 1.65; font-weight: 300; margin-bottom: 16px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 24px; text-decoration: none;
+    font-size: .7rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 500;
+    color: var(--navy-900);
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    border-radius: 2px;
+  }
+  .btn svg { width: 14px; height: 14px; }
+</style>
+</head>
+<body class="locked">
+
+  <!-- BACKGROUND MUSIC (put song.mp3 in the same folder as this file) -->
+  <audio id="bgm" src="song.mp3" loop preload="auto"></audio>
+
+  <!-- GATEFOLD -->
+  <div id="gatefold" role="button" tabindex="0" aria-label="Tap to open invitation">
+    <div class="gate-door gate-left">
+      <div class="door-top">
+        <span class="tag">Presented by</span>
+        Anjuman-I-Islam’s<br>Boys’ High School
+        <span class="rule"></span>
+      </div>
+      <div class="door-bottom">
+        <span class="tag">L Ward Taluka Level</span>
+        Science<br>Exhibition
+      </div>
+    </div>
+    <div class="gate-door gate-right">
+      <div class="door-top">
+        <span class="tag">&amp;</span>
+        Allana Girls’ High School<br>&amp; Jr College, Kurla
+        <span class="rule"></span>
+      </div>
+      <div class="door-bottom">
+        <span class="tag">You are invited</span>
+        Kurla<br>Mumbai
+      </div>
+    </div>
+    <div class="seal">
+      <div class="seal-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+          <circle cx="12" cy="12" r="1.6" fill="currentColor"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>
+        </svg>
+        <span>Tap to open</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MUSIC BUTTON -->
+  <button id="musicBtn" aria-label="Toggle music">
+    <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+    <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="m16 9 5 6m0-6-5 6"/></svg>
+  </button>
+
+  <!-- INVITATION -->
+  <main class="container">
+    <article class="card" id="card">
+      <div class="frame">
+        <span class="corner c-tl"></span><span class="corner c-tr"></span>
+        <span class="corner c-bl"></span><span class="corner c-br"></span>
+
+        <div class="eyebrow">You are cordially invited</div>
+        <div class="host">
+          Anjuman-I-Islam’s Boys’ High School<br>
+          <span class="amp">&amp;</span><br>
+          Allana Girls’ High School &amp; Jr College, Kurla
+        </div>
+
+        <div class="ornament">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>
+          </svg>
+        </div>
+
+        <h1>
+          <small>L Ward Taluka Level</small>
+          Science Exhibition
+        </h1>
+
+        <p class="subtitle">
+          To be held at<br>
+          <strong>Anjuman-I-Islam’s Boys’ High School and Allana Girls’ High School &amp; Junior College, Kurla</strong>
+        </p>
+
+        <div class="photo">
+          <img src="school_building.jpg" alt="Anjuman-I-Islam School Building"
+               onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=700&q=80';" />
+        </div>
+
+        <p class="para">
+          Under the guidance of the <strong>Education Inspector, Brihanmumbai North Zone</strong>,
+          and the <strong>L Ward Co-Curricular Activities Committee</strong>, a three-day Taluka Level
+          School Science Exhibition will be held at the Anjuman-I-Islam Kurla Campus.
+        </p>
+
+        <!-- Scratch -->
+        <section class="scratch-wrap">
+          <div class="label">Scratch to reveal the dates</div>
+          <div class="scratch-box">
+            <div class="secret">
+              <span class="d">15 · 16 · 17</span>
+              <span class="m">October 2026</span>
+            </div>
+            <canvas id="scratch"></canvas>
+          </div>
+          <div class="hint">Rub across the gold with your finger</div>
+        </section>
+
+        <div class="features">
+          <div class="feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
+            <span>Innovative Projects</span>
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1.5 7.5 5-3 5 3-1.5-7.5"/></svg>
+            <span>Expert Judging</span>
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2.2h12.4a1.5 1.5 0 0 0 1.3-2.2L14 9V3M7.5 15h9"/></svg>
+            <span>Hands-on Labs</span>
+          </div>
+        </div>
+
+        <p class="quote">“We cordially invite all students, parents and educators to attend.”</p>
+
+        <div class="venue">
+          <h4>Venue &amp; Directions</h4>
+          <p>Anjuman-I-Islam Complex, CST Road,<br>Near Kurla Railway Station,<br>Kurla West, Mumbai 400070</p>
+          <a class="btn" href="https://maps.google.com/?q=Anjuman-I-Islam+Kurla+West+Mumbai" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            View on Google Maps
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+<script>
+(function () {
+  var gate = document.getElementById('gatefold');
+  var card = document.getElementById('card');
+  var musicBtn = document.getElementById('musicBtn');
+  var opened = false;
+
+  /* ================= MUSIC (song.mp3) ================= */
+  var bgm = document.getElementById('bgm');
+  var userMuted = false;
+  bgm.volume = 0.7;
+
+  function startMusic() {
+    try {
+      var p = bgm.play();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+
+  // Toggle button: pause / play song.mp3
+  musicBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (bgm.paused) {
+      userMuted = false;
+      musicBtn.classList.remove('muted');
+      startMusic();
+    } else {
+      userMuted = true;
+      musicBtn.classList.add('muted');
+      bgm.pause();
+    }
+  });
+
+  // pause when the tab/app is hidden, resume only if the guest hasn't muted it
+  document.addEventListener('visibilitychange', function () {
+    if (!opened) return;
+    if (document.hidden) bgm.pause();
+    else if (!userMuted) startMusic();
+  });
+
+  /* ================= OPEN GATEFOLD ================= */
+  function openGate(e) {
+    if (opened) return;
+    opened = true;
+    if (e && e.preventDefault) e.preventDefault();
+
+    gate.classList.add('opening');
+    startMusic();                       // runs inside the tap, so browsers allow audio
+    musicBtn.classList.add('show');
+
+    setTimeout(function () {
+      gate.style.display = 'none';
+      document.body.classList.remove('locked');
+      card.classList.add('reveal');
+      window.scrollTo(0, 0);
+    }, 900);
+
+    // safety net: even if something above fails, never leave the cover stuck
+    setTimeout(function () {
+      gate.style.display = 'none';
+      document.body.classList.remove('locked');
+      card.classList.add('reveal');
+    }, 2000);
+  }
+
+  gate.addEventListener('click', openGate);
+  gate.addEventListener('touchend', openGate, { passive: false });
+  gate.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') openGate(e);
+  });
+
+  /* ================= SCRATCH CARD ================= */
+  var canvas = document.getElementById('scratch');
+  var c = canvas.getContext('2d');
+  var W = 280, H = 104, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  c.scale(dpr, dpr);
+
+  function paintCover() {
+    var g = c.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#b8902f');
+    g.addColorStop(0.35, '#f1dc9b');
+    g.addColorStop(0.65, '#bf9533');
+    g.addColorStop(1, '#e8cf85');
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+
+    // fine glitter
+    for (var i = 0; i < 260; i++) {
+      c.fillStyle = 'rgba(255,255,255,' + (Math.random() * 0.25) + ')';
+      c.fillRect(Math.random() * W, Math.random() * H, 1.4, 1.4);
+    }
+    c.fillStyle = '#5a4210';
+    c.font = '600 12px Jost, sans-serif';
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillText('S C R A T C H   H E R E', W / 2, H / 2);
+  }
+  paintCover();
+
+  var drawing = false, last = null, revealed = false;
+
+  function pos(e) {
+    var r = canvas.getBoundingClientRect();
+    var p = e.touches && e.touches.length ? e.touches[0] : e;
+    return { x: (p.clientX - r.left) * (W / r.width), y: (p.clientY - r.top) * (H / r.height) };
+  }
+
+  function stroke(e) {
+    if (!drawing || revealed) return;
+    e.preventDefault();
+    var p = pos(e);
+    c.globalCompositeOperation = 'destination-out';
+    c.lineWidth = 34; c.lineCap = 'round'; c.lineJoin = 'round';
+    c.beginPath();
+    c.moveTo(last ? last.x : p.x, last ? last.y : p.y);
+    c.lineTo(p.x, p.y);
+    c.stroke();
+    last = p;
+  }
+
+  function checkCleared() {
+    if (revealed) return;
+    var data = c.getImageData(0, 0, canvas.width, canvas.height).data;
+    var clear = 0, total = 0;
+    for (var i = 3; i < data.length; i += 16) { total++; if (data[i] === 0) clear++; }
+    if (clear / total > 0.5) { revealed = true; canvas.classList.add('done'); }
+  }
+
+  function begin(e) { drawing = true; last = null; stroke(e); }
+  function end() { if (!drawing) return; drawing = false; last = null; checkCleared(); }
+
+  canvas.addEventListener('mousedown', begin);
+  canvas.addEventListener('mousemove', stroke);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', begin, { passive: false });
+  canvas.addEventListener('touchmove', stroke, { passive: false });
+  window.addEventListener('touchend', end);
+  window.addEventListener('touchcancel', end);
+})();
+</script>
+</body>
+</html>
